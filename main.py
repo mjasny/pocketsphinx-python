@@ -236,7 +236,7 @@ class Base:
             if use_adaption_data:
                 if os.path.isfile(working_dir+"mllr_matrix"):
                     print("Trainingdata exists")
-                    config.set_string('-mllr', working_dir+"mllr_matrix")
+                    #config.set_string('-mllr', working_dir+"mllr_matrix")
                 else:
                     print("Trainingdata does not exist.")
 
