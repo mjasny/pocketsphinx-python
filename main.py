@@ -10,6 +10,7 @@
 #version         :0.1
 #usage           :python main.py
 #python_version  :2.7.8
+##############################################
 
 #Tutorial zu/for pocketsphinx-python:
 #https://mattze96.safe-ws.de/blog/?p=640
@@ -26,11 +27,7 @@
 #https://www.youtube.com/watch?v=EcAt-ZhRPBw   (Version 1)
 #https://www.youtube.com/watch?v=dIUqUwZPMc4   (Version 2)
 
-
-#ToDo:
-#More automatic model-adaption (start the record if the user starts to speak)
-#Command support: Computer lights on. Open Webbrowser. etc.
-
+##############################################
 #Note:
 #The following code is only commented in english. If you have questions
 #fell free to contact me at: matthiasjasny@gmail.com
@@ -38,6 +35,14 @@
 #Der nachfolgende Quellcode ist nur in english kommentiert. Wenn Sie/Du Fragen
 #hast, schreibe mir einfach eine Mail: matthiasjasny@gmail.com
 
+##############################################
+#ToDo:
+#More automatic model-adaption (start the record if the user starts to speak)
+#Command support: Computer lights on. Open Webbrowser. etc.
+
+##############################################
+#Changelog:
+#todo :)
 ##############################################
 
 from array import array
