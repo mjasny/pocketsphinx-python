@@ -135,7 +135,7 @@ class Base:
                 ma_info_textbuffer.insert(ma_info_textbuffer.get_end_iter(), "Click on the button. Start reading, if the button gets green. ")
                 ma_info_textbuffer.insert(ma_info_textbuffer.get_end_iter(), "If you are ready wait 1 second and click the button again.\n\n")
                 gtk.gdk.threads_leave()
-                print sentence.strip()
+                print(sentence.strip())
                 ma_info_textbuffer.insert(ma_info_textbuffer.get_end_iter(), sentence.strip())
                 global ma_is_clicked
                 ma_is_clicked = False
@@ -227,12 +227,12 @@ class Base:
 
             def run_command(cmd):
                 '''Run the model-adaption commands and display the output in realtime to the GUI and console-log'''
-                print ' '.join(cmd)
+                print(' '.join(cmd))
                 proc = subprocess.Popen(cmd,  stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                         universal_newlines=True,)
 
                 for line in unbuffered(proc):
-                    print line
+                    print(line)
                     ma_info_textbuffer.insert(ma_info_textbuffer.get_end_iter(), line+'\n')
 
 
@@ -335,7 +335,7 @@ class Base:
                         #If the decoder has partial results, display them in the GUI.
                         if  decoder.hyp().hypstr != '':
                             hypstr = decoder.hyp().hypstr
-                            print 'Partial decoding result:', hypstr
+                            print('Partial decoding result: '+ hypstr)
                             if textbuffer_partial.get_text(*textbuffer_partial.get_bounds()) != hypstr:
                                 gtk.gdk.threads_enter()
                                 textbuffer_partial.set_text(hypstr)
@@ -355,7 +355,7 @@ class Base:
                                 #Since the speech is ended, we can assume that we have final results, then display them
                                 if decoder.hyp().hypstr != '':
                                     decoded_string = decoder.hyp().hypstr
-                                    print 'Stream decoding result:', decoded_string
+                                    print('Stream decoding result: '+ decoded_string)
                                     gtk.gdk.threads_enter()
                                     textbuffer_end.insert( textbuffer_end.get_end_iter(), decoded_string+"\n")
                                     gtk.gdk.threads_leave()
@@ -365,12 +365,12 @@ class Base:
                             gtk.gdk.threads_enter()
                             statusbar.push(0, "Listening: No audio")
                             gtk.gdk.threads_leave()
-                            print "stopped listenning"
+                            print("stopped listenning")
                         else:
                             gtk.gdk.threads_enter()
                             statusbar.push(0, "Listening: Incoming audio...")
                             gtk.gdk.threads_leave()
-                            print "start listening"
+                            print("start listening")
                 else:
                     break
                 #print decoder.get_in_speech()
@@ -443,7 +443,7 @@ class Base:
         except IOError:
             sentences = []
 
-        print sentences
+        print(sentences)
 
         print("Got start_ma()")
         #Check if running, start the thread.
@@ -488,11 +488,11 @@ class Base:
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
             filename = dialog.get_filename()
-            print filename, 'selected'
+            print(filename+ ' selected')
             dialog.destroy()
             return filename
         elif response == gtk.RESPONSE_CANCEL:
-            print 'Closed, no files selected'
+            print('Closed, no files selected')
             dialog.destroy()
             return None
 
