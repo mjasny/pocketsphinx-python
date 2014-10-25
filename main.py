@@ -251,7 +251,7 @@ class Base:
             stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=1024)
             stream.start_stream()
             in_speech_bf = True
-            decoder.start_utt('')
+            decoder.start_utt('asdf')
 
             while self.running:
                 buf = stream.read(1024)
