@@ -72,9 +72,9 @@ use_adaption_data = True
 
 
 #Specifiy here the required paths for the language model
-hmm= 'voxforge-de-r20140813/model_parameters/voxforge.cd_cont_3000/'
-lm = 'voxforge-de-r20140813/etc/voxforge.lm.DMP'
-dic = 'voxforge-de-r20140813/etc/voxforge.dic'
+hmm= 'voxforge-de-r20141117/model_parameters/voxforge.cd_cont_3000/'
+lm = 'voxforge-de-r20141117/etc/voxforge.lm.DMP'
+dic = 'voxforge-de-r20141117/etc/voxforge.dic'
 
 #Path of programs used by the model-adaption
 #To find out use the "whereis program" command
@@ -325,7 +325,7 @@ class Base:
             stream.start_stream()
 
             in_speech_bf = True         #Needed to get the state, when you are speaking/not speaking -> statusbar
-            decoder.start_utt('')
+            decoder.start_utt()
 
 
             while self.running:
@@ -363,7 +363,7 @@ class Base:
                                     gtk.gdk.threads_leave()
                             except AttributeError:
                                 pass
-                            decoder.start_utt('')            #Say to the decoder, that a new "sentence" begins
+                            decoder.start_utt()            #Say to the decoder, that a new "sentence" begins
                             gtk.gdk.threads_enter()
                             statusbar.push(0, "Listening: No audio")
                             gtk.gdk.threads_leave()
