@@ -28,10 +28,6 @@ def get_config():
 
 def main():
 
-    screen = curses.initscr()
-    curses.noecho()
-    curses.curs_set(0)
-    screen.keypad(1)
 
     decoder = Decoder(get_config())        #Create the decoder from the config
     p = pyaudio.PyAudio()
@@ -42,8 +38,30 @@ def main():
     decoder.start_utt()
     in_speech_bf = True         #Needed to get the state, when you are speaking/not speaking -> statusbar
 
+    screen = curses.initscr()
+    curses.noecho()
+    curses.curs_set(0)
+    screen.keypad(1)
+
     height, width = screen.getmaxyx()
-    screen.addstr(0, 0, "Python PocketSphinx Speech Recognition (by matthiasjasny@gmail.com)")
+
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    curses.use_default_colors()
+
+
+
+    _str = "Python PocketSphinx Speech Recognition (by matthiasjasny@gmail.com)"
+    _remain = width-len(_str)
+    _l = _remain/2
+    _r = _remain-_l
+    screen.addstr(0, 0,' '*(_r)+ _str+' '*(_l), curses.color_pair(1))
+
+    screen.addstr(2, 0, "Partial decoding result:")
+
+    _pl = (height)/2+1
+    screen.addstr(_pl-1, 0, 'Stream decoding result:')
     #screen.refresh()
 
     i = 0
@@ -55,7 +73,9 @@ def main():
         buf = stream.read(1024)          #Read the first Chunk from the microphone
         if buf:
             #Pass the Chunk to the decoder
-            screen.addstr(height-2, 0, "Decoded chunks: "+str(i))
+            _str = "Decoded chunks: "+str(i)
+            _remain = width-len(_str)
+            screen.addstr(height-2, 0, _str +' '*_remain, curses.color_pair(2))
             i+=1
 
             decoder.process_raw(buf, False, False)
@@ -65,7 +85,7 @@ def main():
                     hypstr = decoder.hyp().hypstr
                     #print('Partial decoding result: '+ hypstr)
                     screen.addstr(3, 0, ' '*(width-1))
-                    screen.addstr(3, 0,'Partial decoding result: '+ hypstr)
+                    screen.addstr(3, 0, hypstr)
             except AttributeError:
                 pass
             if decoder.get_in_speech():
@@ -81,19 +101,24 @@ def main():
                         #Since the speech is ended, we can assume that we have final results, then display them
                         if decoder.hyp().hypstr != '':
                             decoded_string = decoder.hyp().hypstr
-                            screen.addstr(6, 0, ' '*(width-1))
-                            screen.addstr(6, 0, 'Stream decoding result: '+ decoded_string)
+                            screen.addstr(_pl, 0, ' '*(width-1))
+                            screen.addstr(_pl, 0, decoded_string)
 
                     except AttributeError:
                         pass
                     decoder.start_utt()            #Say to the decoder, that a new "sentence" begins
-                    screen.addstr(height-1, 0, ' '*(width-1))
-                    screen.addstr(height-1, 0, "Listening: No audio")
+
+                    _str = "Listening: No audio"
+                    _remain = width-len(_str)-1
+                    screen.addstr(height-1, 0, _str+' '*(_remain), curses.color_pair(2))
+                    screen.insstr(height-1, width-1, ' ', curses.color_pair(2))
+
                     #print("stopped listenning")
                 else:
-                    screen.addstr(height-1, 0, ' '*(width-1))
-                    screen.addstr(height-1, 0, "Listening: Incoming audio...")
-                    #print("start listening")
+                    _str = "Listening: Incoming audio..."
+                    _remain = width-len(_str)-1
+                    screen.addstr(height-1, 0, _str+' '*(_remain), curses.color_pair(2))
+                    screen.insstr(height-1, width-1, ' ', curses.color_pair(2))
 
             screen.refresh()
         else:
