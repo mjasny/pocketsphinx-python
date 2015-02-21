@@ -3,7 +3,9 @@
 
 
 import curses
+
 import pyaudio
+import audioop
 
 import subprocess
 
@@ -77,6 +79,13 @@ def main():
             _remain = width-len(_str)
             screen.addstr(height-2, 0, _str +' '*_remain, curses.color_pair(2))
             i+=1
+
+
+            _vol = audioop.max(buf, 2) #not sure which width
+            _vol = _vol/100
+            _str = "Volume: "+str(_vol)+'%'
+            _remain = width-len(_str)
+            screen.addstr(1, 0, _str+' '*_remain)
 
             decoder.process_raw(buf, False, False)
             try:
