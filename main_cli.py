@@ -16,6 +16,12 @@ hmm= 'voxforge-de-r20141117/model_parameters/voxforge.cd_cont_3000/'
 lm = 'voxforge-de-r20141117/etc/voxforge.lm.DMP'
 dic = 'voxforge-de-r20141117/etc/voxforge.dic'
 
+
+import locale
+
+locale.setlocale(locale.LC_ALL, '')    # set your locale
+
+
 def get_config():
     #Create a config object for the Decoder, which will later decode our spoken words.
     config = Decoder.default_config()
