@@ -59,24 +59,33 @@ def main():
     curses.use_default_colors()
 
 
+    def draw_fixed_text():
+        global _l
+        global _r
+        global _pl
+        _str = "Python PocketSphinx Speech Recognition (by matthiasjasny@gmail.com)"
+        _remain = width-len(_str)
+        _l = _remain/2
+        _r = _remain-_l
+        screen.addstr(0, 0,' '*(_r)+ _str+' '*(_l), curses.color_pair(1))
 
-    _str = "Python PocketSphinx Speech Recognition (by matthiasjasny@gmail.com)"
-    _remain = width-len(_str)
-    _l = _remain/2
-    _r = _remain-_l
-    screen.addstr(0, 0,' '*(_r)+ _str+' '*(_l), curses.color_pair(1))
+        screen.addstr(2, 0, "Partial decoding result:")
 
-    screen.addstr(2, 0, "Partial decoding result:")
+        _pl = (height)/2+1
+        screen.addstr(_pl-1, 0, 'Stream decoding result:')
+        #screen.refresh()
 
-    _pl = (height)/2+1
-    screen.addstr(_pl-1, 0, 'Stream decoding result:')
-    #screen.refresh()
+    draw_fixed_text()
 
     i = 0
     while True:
         screen.nodelay(1)
         event = screen.getch()
         if event == ord("q"): break
+        if event == curses.KEY_RESIZE:
+            screen.clear()
+            height, width = screen.getmaxyx()
+            draw_fixed_text()
 
         buf = stream.read(1024)          #Read the first Chunk from the microphone
         if buf:
